@@ -1,0 +1,75 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+.bg-dark {
+    background-color: #283046!important;
+}
+.btn-group-toggle [class*=btn-outline-]:not(:last-child) {
+    border-right-width: 1px !important;
+}
+.table .thead-dark th {
+    background-color: #283046;
+    border-color: #283046;
+}
+
+.table .thead-secondary th {
+    background-color: #82868b !important;
+    border-color: #82868b;
+    color: #fff;
+}
+
+
+.table .thead-primary th {
+    background-color: #fea04d !important;
+    border-color: #fea04d;
+    color: #fff;
+}
+.table .thead-success th {
+    background-color: #28c76f !important;
+    border-color: #28c76f;
+    color: #fff;
+}
+.semi-dark-layout .main-menu-content .navigation-main .nav-item .menu-content li:not(.active) a {
+    background-color: unset;
+}
+@media (min-width: 1920px) {
+    .container-xxl,
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 100%;
+    }
+}
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.table_sm td, .table_sm th{
+    font-size: 12px;
+}
+
+.badge-pill{
+    cursor: pointer;
+}
+.cell-text-center {
+    .datatable-header-cell-wrapper{
+        margin: auto;
+    }
+    .datatable-body-cell-label{
+        margin: auto !important;
+    }
+}
+   
+.round {
+    border-radius: 1.5rem !important;
+}

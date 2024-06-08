@@ -1,0 +1,45 @@
+@import '@core/scss/angular/libs/form-wizard.component.scss';
+canvas {
+    display: block;
+    border: 1px solid #d8d6de;
+    border-radius: 0.357rem;
+    width: 100%;
+  }
+  
+.nav-top {
+    border-bottom: 1px solid #fea04d;
+    border-radius: 0px;
+}
+
+.nav-top.nav-pills .nav-link {
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.table th,
+.table td {
+    padding: 8px 5px;
+    vertical-align: middle;
+}
+
+.table thead th,
+.table tfoot th {
+    text-transform: capitalize;
+}
+
+.nav-info .nav-link.active {
+    border-color: #28C76F !important;
+    box-shadow: 0 4px 18px -4px rgba(14, 169, 173, 0.65) !important;
+}
+
+.nav-info .nav-link.active,
+.nav-info .show>.nav-link {
+    background-color: #28C76F !important;
+}
+.bs-stepper .bs-stepper-header .step .step-trigger .bs-stepper-box { 
+    background-color: rgba(186, 191, 199, 0.3);
+    border-radius: 50% !important;
+}
+.bs-stepper .bs-stepper-header .line {
+    padding: 0 1rem;
+}
