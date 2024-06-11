@@ -62,5 +62,16 @@ export interface MedicalIntake {
     medConditions: MedConditions[];
     sugConditions: SugConditions[];
 
+    diagnosedConditions: string | null;
+
+    familyDiagnoses: string;
+  isSubmitted: boolean;
+  feelingDown: boolean | null;
+  littleInterest: boolean | null;
+  wantHelp: boolean | null;
+  unsafeAtHome: boolean | null;
+  therapyGoals: string;
+  otherProblems: string;
+
   }
   

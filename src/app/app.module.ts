@@ -19,6 +19,7 @@ import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { UserInputComponent } from './user-input/user-input.component';
 import { DashboardComponent } from './main/dashboard/dashboard.component';
+import { ThankYouComponent } from './main/pages/thankYou/thank-you/thank-you.component';
 
 const appRoutes: Routes = [
  
@@ -32,6 +33,8 @@ const appRoutes: Routes = [
     path: 'user-input',
     component: UserInputComponent
   },
+  { path: 'thank-you', component: ThankYouComponent }
+  ,
   {
     path: '',
     redirectTo: '/user-input',

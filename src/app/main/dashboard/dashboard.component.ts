@@ -1,21 +1,25 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Stepper from 'bs-stepper';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MedicalIntakeService } from 'app/services/medical-intake.service';
-import { RefRecentlyNoticedService } from 'app/services/ref-recently-noticed.service'; // Import the service
+import { RefRecentlyNoticedService } from 'app/services/ref-recently-noticed.service';
 import { MedicalIntake } from 'app/interfaces/medical-intake';
-import { RefRecentlyNoticed } from 'app/interfaces/ref-recently-noticed'; // Import the interface
+import { RefRecentlyNoticed } from 'app/interfaces/ref-recently-noticed';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { MedBodyPart } from 'app/interfaces/med-body-part';
 import { RefBodyPart } from 'app/interfaces/ref-body-part';
 import { RefBodyPartsService } from 'app/services/ref-body-parts-service.service';
 import { RefMedConditionsServiceService } from 'app/services/ref-med-conditions-service.service';
 import { RefSugConditionsServiceService } from 'app/services/ref-sug-conditions-service.service';
+import { RefDiagnosedConditionsService } from 'app/services/ref-diagnosed-conditions.service';
 import { RefMedConditions } from 'app/interfaces/ref-med-conditions';
 import { RefSugConditions } from 'app/interfaces/ref-sug-conditions';
+import { RefDiagnosedConditions } from 'app/interfaces/ref-diagnosed-conditions';
 import { MedConditions } from 'app/interfaces/med-conditions';
 import { SugConditions } from 'app/interfaces/sug-conditions';
+import { RefFamilyDiagnoses } from 'app/interfaces/ref-family-diagnoses';
+import { RefFamilyDiagnosesService } from 'app/services/ref-family-diagnoses.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +31,7 @@ import { SugConditions } from 'app/interfaces/sug-conditions';
     '(keyup.ctrl.k)': 'clear()'
   }
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild("canvas", { static: true }) canvas: ElementRef;
 
   private modernWizardStepper: Stepper;
@@ -56,6 +60,9 @@ export class DashboardComponent implements OnInit {
   activeBodyParts: RefBodyPart[] = [];
   activeMedConditions: RefMedConditions[] = [];
   activeSugConditions: RefSugConditions[] = [];
+  activeDiagnosedConditions: RefDiagnosedConditions[] = [];
+  activeFamilyDiagnoses: RefFamilyDiagnoses[] = [];
+
 
   intakeFormStep1: FormGroup;
   intakeFormStep2: FormGroup;
@@ -64,6 +71,9 @@ export class DashboardComponent implements OnInit {
   intakeFormStep5: FormGroup;
   intakeFormStep6: FormGroup;
   intakeFormStep7: FormGroup;
+  intakeFormStep8: FormGroup;
+  intakeFormStep9: FormGroup;
+
 
   currentStep: number = 0;
 
@@ -76,21 +86,20 @@ export class DashboardComponent implements OnInit {
     private refBodyPartsService: RefBodyPartsService,
     private refMedConditionsService: RefMedConditionsServiceService,
     private refSugConditionsService: RefSugConditionsServiceService,
+    private refDiagnosedConditionsService: RefDiagnosedConditionsService,
+    private router: Router,
+    private refFamilyDiagnosesService: RefFamilyDiagnosesService,
     public changeevent: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.modernWizardStepper = new Stepper(document.querySelector('#stepper3'), {
-      linear: false,
-      animation: true
-    });
-
     this.initializeForms();
-
     this.loadActiveFields();
     this.loadActiveBodyParts();
     this.loadActiveMedConditions();
     this.loadActiveSugConditions();
+    this.loadActiveDiagnosedConditions();
+    this.loadActiveFamilyDiagnoses();
 
     this.route.paramMap.subscribe(params => {
       const referenceNumber = params.get('referenceNumber');
@@ -99,6 +108,13 @@ export class DashboardComponent implements OnInit {
       } else {
         console.error('No reference number found in route parameters');
       }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.modernWizardStepper = new Stepper(document.querySelector('#stepper3'), {
+      linear: false,
+      animation: true
     });
   }
 
@@ -177,7 +193,20 @@ export class DashboardComponent implements OnInit {
     this.intakeFormStep7 = this.fb.group({
       steroidMedications: [''],
       bloodThinningMedications: [''],
-    
+      medConditions: this.fb.array([]),
+      sugConditions: this.fb.array([])
+    });
+
+    this.intakeFormStep8 = this.fb.group({});
+
+    this.intakeFormStep9 = this.fb.group({
+      familyDiagnoses: this.fb.group({}),
+      feelingDown: ['', Validators.required],
+      littleInterest: ['', Validators.required],
+      wantHelp: ['', Validators.required],
+      unsafeAtHome: ['', Validators.required],
+      therapyGoals: ['', Validators.required],
+      otherProblems: ['', Validators.required]
     });
   }
 
@@ -205,6 +234,26 @@ export class DashboardComponent implements OnInit {
   loadActiveSugConditions() {
     this.refSugConditionsService.getActiveSugConditions().subscribe(conditions => {
       this.activeSugConditions = conditions;
+    });
+  }
+
+  loadActiveDiagnosedConditions() {
+    this.refDiagnosedConditionsService.getActiveDiagnosedConditions().subscribe(conditions => {
+      this.activeDiagnosedConditions = conditions;
+      console.log(conditions)
+      this.activeDiagnosedConditions.forEach(condition => {
+        this.intakeFormStep8.addControl('condition' + condition.id, new FormControl(false));
+      });
+    });
+  }
+
+  loadActiveFamilyDiagnoses() {
+    this.refFamilyDiagnosesService.getActiveFamilyDiagnoses().subscribe(conditions => {
+      this.activeFamilyDiagnoses = conditions;
+      const familyDiagnosesGroup = this.intakeFormStep9.get('familyDiagnoses') as FormGroup;
+      this.activeFamilyDiagnoses.forEach(condition => {
+        familyDiagnosesGroup.addControl('condition' + condition.id, new FormControl(false));
+      });
     });
   }
 
@@ -238,11 +287,58 @@ export class DashboardComponent implements OnInit {
       this.updateIntakeFromStep6();
     } else if (this.currentStep === 6 && this.intakeFormStep7.valid) {
       this.updateIntakeFromStep7();
+    } else if (this.currentStep === 7 && this.intakeFormStep8.valid) {
+      this.updateIntakeFromStep8();
     } else {
+      this.markAllControlsAsTouched();
+
       console.error('Form is invalid');
     }
   }
-
+  markAllControlsAsTouched() {
+    switch (this.currentStep) {
+      case 0:
+        this.intakeFormStep1.markAllAsTouched();
+        break;
+      case 1:
+        this.intakeFormStep2.markAllAsTouched();
+        break;
+      case 2:
+        this.intakeFormStep3.markAllAsTouched();
+        break;
+      case 3:
+        this.markFormArrayAsTouched(this.intakeFormStep4);
+        break;
+      case 4:
+        this.intakeFormStep5.markAllAsTouched();
+        break;
+      case 5:
+        this.intakeFormStep6.markAllAsTouched();
+        break;
+      case 6:
+        this.intakeFormStep7.markAllAsTouched();
+        break;
+      case 7:
+        this.intakeFormStep8.markAllAsTouched();
+        break;
+      case 8:
+        this.intakeFormStep9.markAllAsTouched();
+        break;
+      default:
+        break;
+    }
+  }
+  
+  markFormArrayAsTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control instanceof FormArray) {
+        control.controls.forEach(group => {
+          (group as FormGroup).markAllAsTouched();
+        });
+      }
+    });
+  }
   modernHorizontalPrevious() {
     this.modernWizardStepper.previous();
     this.currentStep--;
@@ -367,7 +463,36 @@ export class DashboardComponent implements OnInit {
     this.intake.bloodThinningMedications = this.intakeFormStep7.get('bloodThinningMedications')?.value.toString() === '1' ? true : false;
     this.intake.medConditions = this.medications;
     this.intake.sugConditions = this.conditions;
-    console.log(this.intake);
+
+    this.saveIntake();
+  }
+
+  updateIntakeFromStep8() {
+    const selectedConditions = this.activeDiagnosedConditions
+      .filter(condition => this.intakeFormStep8.get('condition' + condition.id)?.value)
+      .map(condition => condition.name)
+      .join(', ');
+
+    this.intake.diagnosedConditions = selectedConditions;
+
+    this.saveIntake();
+  }
+  
+  updateIntakeFromStep9() {
+    const selectedFamilyDiagnoses = this.activeFamilyDiagnoses
+      .filter(condition => this.intakeFormStep9.get('familyDiagnoses').get('condition' + condition.id)?.value)
+      .map(condition => condition.name)
+      .join(', ');
+  
+    this.intake.familyDiagnoses = selectedFamilyDiagnoses;
+    this.intake.feelingDown = this.intakeFormStep9.get('feelingDown')?.value.toString() === '1'? true : false;
+    this.intake.littleInterest = this.intakeFormStep9.get('littleInterest')?.value.toString() === '1'? true : false;
+    this.intake.wantHelp = this.intakeFormStep9.get('wantHelp')?.value.toString() === '1'? true : false;
+    this.intake.unsafeAtHome = this.intakeFormStep9.get('unsafeAtHome')?.value.toString() === '1'? true : false;
+    this.intake.therapyGoals = this.intakeFormStep9.get('therapyGoals')?.value;
+    this.intake.otherProblems = this.intakeFormStep9.get('otherProblems')?.value;
+    this.intake.isSubmitted = true;
+  
     this.saveIntake();
   }
 
@@ -390,29 +515,26 @@ export class DashboardComponent implements OnInit {
       issue: ''
     });
   }
+
   onadd_medication() {
-    //make it like onadd_issue
     this.medications.push({
       id: 0,
       intakeReference: this.intake.referenceNumber || "",
       name: ''
     });
-}
+  }
 
-onadd_condition() {
-  //make it like onadd_issue
-  this.conditions.push({
-    id: 0,
-    intakeReference: this.intake.referenceNumber || "",
-    //this name should be comming from the form 
-    name: ''
-  });
-}
+  onadd_condition() {
+    this.conditions.push({
+      id: 0,
+      intakeReference: this.intake.referenceNumber || "",
+      name: ''
+    });
+  }
+
   removeMedication(index: number) {
     this.medications.splice(index, 1);
   }
-
- 
 
   removeCondition(index: number) {
     this.conditions.splice(index, 1);
@@ -423,6 +545,13 @@ onadd_condition() {
   }
 
   onSubmit() {
-    // Submit logic
+    console.log("hello")
+    if (this.intakeFormStep9.valid) {
+      this.updateIntakeFromStep9();
+      this.router.navigate(['/thank-you']);
+    } else {
+      console.error('Form is invalid');
+    }
   }
 }
+;

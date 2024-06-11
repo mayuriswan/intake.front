@@ -28,11 +28,9 @@ export class UserInputComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log("hello");
     if (this.userForm.valid) {
-      
       const intake: MedicalIntake = {
-        id:0,
+        id: 0,
         firstName: this.userForm.value.firstName,
         lastName: this.userForm.value.lastName,
         email: this.userForm.value.email,
@@ -50,20 +48,19 @@ export class UserInputComponent implements OnInit {
         cellNumber: null,
         homeNumber: null,
         workNumber: null,
-        workRestriction:null,
-        medicalLegalCase:null,
-        latexSensitive:null, 
-        smoke:null,
-        implantedDevice:null,
-        implantedDeviceDetails:null,
-        pregnant:null,
-        allergies:null,
-        recentlyNoted:null,
+        workRestriction: null,
+        medicalLegalCase: null,
+        latexSensitive: null,
+        smoke: null,
+        implantedDevice: null,
+        implantedDeviceDetails: null,
+        pregnant: null,
+        allergies: null,
+        recentlyNoted: null,
         bodyParts: [],
         symptomStartDate: null,
         symptomStartEst: null,
         symptomCause: null,
-
         symptomStatus: null,
         physicalActivity: null,
         treatmentReceived: null,
@@ -71,8 +68,6 @@ export class UserInputComponent implements OnInit {
         hadProblemBefore: null,
         problemBeforeWhen: null,
         treatmentBefore: null,
-
-        //step 6
         aggravatingFactors: null,
         easingFactors: null,
         sleepIssues: null,
@@ -81,24 +76,32 @@ export class UserInputComponent implements OnInit {
         currentPainLevel: null,
         bestPainLevel: null,
         worstPainLevel: null,
-        //step 7
         steroidMedications: null,
         bloodThinningMedications: null,
         medConditions: [],
-        sugConditions: []
-
-        
+        sugConditions: [],
+        diagnosedConditions: null,
+        familyDiagnoses: null,
+        isSubmitted: false,
+        feelingDown: null,
+        littleInterest: null,
+        wantHelp: null,
+        unsafeAtHome: null,
+        therapyGoals: null,
+        otherProblems: null
       };
 
       this.medicalIntakeService.createMedicalIntake(intake)
-      .subscribe(response => {
-        const referenceNumber = response.referenceNumber;
-        console.log("Received reference number:", referenceNumber);
-        this.router.navigate(['/dashboard', referenceNumber]);
-      }, error => {
-        console.error('Error creating medical intake:', error);
-      });
-  
+        .subscribe(response => {
+          const referenceNumber = response.referenceNumber;
+          console.log("Received reference number:", referenceNumber);
+          this.router.navigate(['/dashboard', referenceNumber]);
+        }, error => {
+          console.error('Error creating medical intake:', error);
+        });
+    } else {
+      // Mark all controls as touched to show validation messages
+      this.userForm.markAllAsTouched();
     }
   }
 }

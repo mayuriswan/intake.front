@@ -10,9 +10,12 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 
 
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { ThankYouComponent } from './thankYou/thank-you/thank-you.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ThankYouComponent
+  ],
   imports: [
     CommonModule,
     CoreCommonModule,
