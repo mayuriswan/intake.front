@@ -20,9 +20,29 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { UserInputComponent } from './user-input/user-input.component';
 import { DashboardComponent } from './main/dashboard/dashboard.component';
 import { ThankYouComponent } from './main/pages/thankYou/thank-you/thank-you.component';
+import { LoginComponent } from './login/login.component';
+import { PortalComponent } from './portal/portal.component';
+import { SearchIntakesComponent } from './search-intakes/search-intakes.component';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { AuthGuard } from './auth.guard';
+import { IntakeDetailComponent } from './portal/intake-detail/intake-detail.component';
 
 const appRoutes: Routes = [
- 
+  { path: '', redirectTo: '/user-input',
+    pathMatch: 'full' },  // Default route to show layout
+  { path: 'login', component: LoginComponent },  // Login route
+
+  {
+    path: 'portal',
+    component: PortalComponent, 
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: 'search-intakes', pathMatch: 'full' },  // Default child route
+      { path: 'search-intakes', component: SearchIntakesComponent },  // Search Intake Forms - accessible to both roles
+      { path: 'user-management', component: UserManagementComponent }  // User Management - Admins only
+    ]
+  },
+  { path: 'portal/intake-detail/:referenceNumber', component: IntakeDetailComponent, canActivate: [AuthGuard] },
   {
     path: 'pages',
     loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
@@ -53,7 +73,12 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    UserInputComponent
+    UserInputComponent,
+    LoginComponent,
+    PortalComponent,
+    SearchIntakesComponent,
+    UserManagementComponent,
+    IntakeDetailComponent
   ],
   imports: [
     BrowserModule,

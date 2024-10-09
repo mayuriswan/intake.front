@@ -1,0 +1,22 @@
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+        <h4>Portal</h4>
+        <button class="btn btn-danger" (click)="logout()">Logout</button>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/portal/search-intakes']" routerLinkActive="active">Search Intake
+                Forms</a>
+        </li>
+        <li *ngIf="isAdmin()" class="nav-item">
+            <a class="nav-link" [routerLink]="['/portal/user-management']" routerLinkActive="active">User Management</a>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- Search Tab -->
+        <router-outlet></router-outlet>
+    </div>
+</div>

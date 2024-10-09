@@ -1,0 +1,50 @@
+<div class="search-form">
+    <form (submit)="onSearch()">
+        <div class="form-group">
+            <label for="searchQuery">Search</label>
+            <input type="text" id="searchQuery" class="form-control" [(ngModel)]="searchQuery" name="searchQuery"
+                placeholder="Enter name, reference number, or date range" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div class="mt-3">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Reference Number</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>ID Number</th>
+                <th>Date of Birth</th>
+                <th>Cell Number</th>
+                <th>Home Number</th>
+                <th>Work Number</th>
+                <th>Email Address</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let intake of searchResults">
+                <td>{{ intake.referenceNumber }}</td>
+                <td>{{ intake.firstName }}</td>
+                <td>{{ intake.middleName }}</td>
+                <td>{{ intake.lastName }}</td>
+                <td>{{ intake.idNumber }}</td>
+                <td>{{ intake.dateOfBirth }}</td>
+                <td>{{ intake.cellNumber }}</td>
+                <td>{{ intake.homeNumber }}</td>
+                <td>{{ intake.workNumber }}</td>
+                <td>{{ intake.email }}</td>
+                <td>
+                    <button class="btn btn-primary" [routerLink]="['/portal/intake-detail', intake.referenceNumber]">
+                        View Details
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,420 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h4>Intake Details (Reference: {{ intake?.referenceNumber }})</h4>
+            <button class="btn btn-success" (click)="exportToExcel()">Export to Excel</button>
+        </div>
+        <div class="card-body">
+            <form>
+                <!-- Personal Information -->
+                <h5>Personal Information</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" [value]="intake?.firstName" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Middle Name</label>
+                            <input type="text" class="form-control" [value]="intake?.middleName" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" [value]="intake?.lastName" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <h5>Contact Information</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Phone Number (Cell)</label>
+                            <input type="text" class="form-control" [value]="intake?.cellNumber" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Phone Number (Home)</label>
+                            <input type="text" class="form-control" [value]="intake?.homeNumber" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Phone Number (Work)</label>
+                            <input type="text" class="form-control" [value]="intake?.workNumber" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Information -->
+                <h5>Address Information</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Address 1</label>
+                            <input type="text" class="form-control" [value]="intake?.address1" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Address 2</label>
+                            <input type="text" class="form-control" [value]="intake?.address2" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Address 3</label>
+                            <input type="text" class="form-control" [value]="intake?.address3" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" class="form-control" [value]="intake?.country" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ID and Gender -->
+                <h5>Identification & Gender</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>ID Type</label>
+                            <input type="text" class="form-control" [value]="intake?.idType" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>ID Number</label>
+                            <input type="text" class="form-control" [value]="intake?.idNumber" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" class="form-control" [value]="intake?.dateOfBirth" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <input type="text" class="form-control" [value]="intake?.gender" readonly>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 2: Work Restrictions and Allergies -->
+                <h5>Work Restrictions and Allergies</h5>
+                <div class="form-group">
+                    <label>Work Restriction</label>
+                    <input type="text" class="form-control" [value]="intake?.workRestriction === '1' ? 'Yes' : 'No'"
+                        readonly>
+                </div>
+                <div class="form-group">
+                    <label>Medical Legal Case</label>
+                    <input type="text" class="form-control" [value]="intake?.medicalLegalCase === '1' ? 'Yes' : 'No'"
+                        readonly>
+                </div>
+                <div class="form-group">
+                    <label>Latex Sensitivity</label>
+                    <input type="text" class="form-control" [value]="intake?.latexSensitive === '1' ? 'Yes' : 'No'"
+                        readonly>
+                </div>
+                <div class="form-group">
+                    <label>Smokes</label>
+                    <input type="text" class="form-control" [value]="intake?.smoke === '1' ? 'Yes' : 'No'" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Implanted Device</label>
+                    <input type="text" class="form-control" [value]="intake?.implantedDevice === '1' ? 'Yes' : 'No'"
+                        readonly>
+                </div>
+                <div class="form-group">
+                    <label>Implanted Device Details</label>
+                    <input type="text" class="form-control" [value]="intake?.implantedDeviceDetails" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Pregnant</label>
+                    <input type="text" class="form-control" [value]="intake?.pregnant === '1' ? 'Yes' : 'No'" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Allergies</label>
+                    <input type="text" class="form-control" [value]="intake?.allergies" readonly>
+                </div>
+                <!-- Step 3: Recently Noted Conditions -->
+                <h5>Recently Noted Conditions</h5>
+                <div class="form-group">
+                    <label>Recently Noted</label>
+                    <textarea class="form-control" rows="3" readonly>{{ intake?.recentlyNoted }}</textarea>
+                </div>
+                <!-- Step 4: Body Parts Affected -->
+                <h5>Body Parts Affected</h5>
+                <div class="row justify-content-center">
+                    <div class="col-md-5 mx-3" *ngFor="let part of intake?.bodyParts.$values; let i = index">
+                        <div class="form-group">
+                            <label>Body Part {{ i + 1 }}</label>
+                            <input type="text" class="form-control" [value]="part.bodyPart" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-5 " *ngFor="let part of intake?.bodyParts.$values; let i = index">
+                        <div class="form-group">
+                            <label>Issue</label>
+                            <input type="text" class="form-control" [value]="part.issue" readonly>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 5: Symptoms -->
+                <h5>Symptoms</h5>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Symptom Start Date</label>
+                            <input type="date" class="form-control" [value]="intake?.symptomStartDate" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Symptom Start Estimate</label>
+                            <input type="text" class="form-control" [value]="intake?.symptomStartEst" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Symptom Cause</label>
+                            <input type="text" class="form-control" [value]="intake?.symptomCause" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Symptom Status</label>
+                            <input type="text" class="form-control" [value]="intake?.symptomStatus" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Physical Activity</label>
+                            <input type="text" class="form-control" [value]="intake?.physicalActivity" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Treatment Received</label>
+                            <input type="text" class="form-control" [value]="intake?.treatmentReceived" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Special Tests</label>
+                            <input type="text" class="form-control" [value]="intake?.specialTests" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Had Problem Before</label>
+                            <input type="text" class="form-control" [value]="intake?.hadProblemBefore ? 'Yes' : 'No'"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Treatment Before</label>
+                            <input type="text" class="form-control" [value]="intake?.treatmentBefore" readonly>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 6: Pain & Sleep Symptoms -->
+                <h5>Pain & Sleep Symptoms</h5>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Aggravating Factors</label>
+                            <input type="text" class="form-control" [value]="intake?.aggravatingFactors" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Easing Factors</label>
+                            <input type="text" class="form-control" [value]="intake?.easingFactors" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sleep Issues -->
+                <h5>Sleep Issues</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Sleep Issues</label>
+                            <textarea class="form-control" rows="2" readonly>{{ intake?.sleepIssues }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pain Levels -->
+                <h5>Pain Levels</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Current Pain Level</label>
+                            <input type="text" class="form-control" [value]="intake?.currentPainLevel" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Worst Pain Level</label>
+                            <input type="text" class="form-control" [value]="intake?.worstPainLevel" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Best Pain Level</label>
+                            <input type="text" class="form-control" [value]="intake?.bestPainLevel" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best & Worst Symptoms -->
+                <h5>Best & Worst Symptoms</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Worst Symptoms</label>
+                            <input type="text" class="form-control" [value]="intake?.worstSymptoms" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Best Symptoms</label>
+                            <input type="text" class="form-control" [value]="intake?.bestSymptoms" readonly>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Step 7: Medications and Conditions -->
+                <h5>Medications and Conditions</h5>
+
+                <!-- Steroid Medications and Blood Thinning Medications -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Steroid Medications</label>
+                            <input type="text" class="form-control" [value]="intake?.steroidMedications ? 'Yes' : 'No'"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Blood Thinning Medications</label>
+                            <input type="text" class="form-control"
+                                [value]="intake?.bloodThinningMedications ? 'Yes' : 'No'" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Conditions -->
+                <h5>Medical Conditions</h5>
+                <div class="row">
+                    <div class="col-md-6" *ngFor="let condition of intake?.medConditions?.$values; let i = index">
+                        <div class="form-group">
+                            <label>Medical Condition {{ i + 1 }}</label>
+                            <input type="text" class="form-control" [value]="condition.name" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Surgical Conditions -->
+                <h5>Surgical Conditions</h5>
+                <div class="row">
+                    <div class="col-md-6" *ngFor="let sugCondition of intake?.sugConditions?.$values; let i = index">
+                        <div class="form-group">
+                            <label>Surgical Condition {{ i + 1 }}</label>
+                            <input type="text" class="form-control" [value]="sugCondition.name" readonly>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 8: Diagnosed Conditions -->
+                <h5>Diagnosed Conditions</h5>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Diagnosed Conditions</label>
+                            <textarea class="form-control" rows="3"
+                                readonly>{{ intake?.diagnosedConditions }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 9: Submission and Final Information -->
+                <h5>Final Information</h5>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Feeling Down</label>
+                            <input type="text" class="form-control" [value]="intake?.feelingDown ? 'Yes' : 'No'"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Little Interest</label>
+                            <input type="text" class="form-control" [value]="intake?.littleInterest ? 'Yes' : 'No'"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Want Help</label>
+                            <input type="text" class="form-control" [value]="intake?.wantHelp ? 'Yes' : 'No'" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Unsafe at Home</label>
+                            <input type="text" class="form-control" [value]="intake?.unsafeAtHome ? 'Yes' : 'No'"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Therapy Goals</label>
+                            <textarea class="form-control" rows="3" readonly>{{ intake?.therapyGoals }}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Other Problems</label>
+                            <textarea class="form-control" rows="3" readonly>{{ intake?.otherProblems }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit button to go back -->
+                <div class="form-group text-center mt-4">
+                    <button class="btn btn-primary" [routerLink]="['/portal/search-intakes']">Back to Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="user-management">
+    <h4>Add New User</h4>
+    <form (submit)="addUser()">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" class="form-control" [(ngModel)]="newUser.name" name="name" required />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" [(ngModel)]="newUser.username" name="email" required />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" class="form-control" [(ngModel)]="newUser.passwordHash" name="password"
+                required />
+        </div>
+
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select id="role" class="form-control" [(ngModel)]="newUser.role" name="role" required>
+                <option value="Regular">Regular</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Add User</button>
+    </form>
+</div>
+
+<div class="mt-5">
+    <h4>Current Users</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <button class="btn btn-danger" (click)="removeUser(user.id)">Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
